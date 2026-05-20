@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Si NEI – Opplæringshefte</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8334A;
+    --red-light: #FF6B7A;
+    --red-pale: #FFF0F2;
+    --navy: #151C2C;
+    --navy-mid: #1E2A42;
+    --navy-soft: #2D3D5C;
+    --cream: #FAF8F4;
+    --warm-white: #FFFFFF;
+    --text: #1A1A2A;
+    --muted: #6B7280;
+    --border: #E8E4DC;
+    --gold: #C9A84C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 10vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: 'NEI';
+    position: absolute;
+    right: -2vw;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(200px, 30vw, 420px);
+    font-weight: 900;
+    color: rgba(232, 51, 74, 0.07);
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -0.02em;
+  }
+
+  .cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cover-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(64px, 10vw, 120px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .cover h1 span { color: var(--red); }
+
+  .cover-sub {
+    font-size: 20px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    max-width: 520px;
+    margin-bottom: 60px;
+    line-height: 1.6;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 3px;
+    background: var(--red);
+    margin-bottom: 32px;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cover-meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  .cover-meta-value {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--warm-white);
+    padding: 80px 10vw;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toc-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+  }
+
+  .toc-item:hover { padding-left: 8px; }
+  .toc-item:hover .toc-num { color: var(--red); }
+
+  .toc-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    min-width: 48px;
+    transition: color 0.2s;
+  }
+
+  .toc-info {}
+  .toc-info strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .toc-info span {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    padding: 100px 10vw;
+  }
+
+  .section-alt { background: var(--warm-white); }
+  .section-dark { background: var(--navy); color: white; }
+  .section-red { background: var(--red); color: white; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    margin-bottom: 64px;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-dark .section-eyebrow { color: var(--red-light); }
+  .section-red .section-eyebrow { color: rgba(255,255,255,0.7); }
+
+  .section-eyebrow::after {
+    content: '';
+    display: inline-block;
+    flex: 1;
+    max-width: 40px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    max-width: 700px;
+  }
+
+  .section-dark .section-title { color: white; }
+  .section-red .section-title { color: white; }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--red);
+  }
+  .section-dark .section-title em { color: var(--red-light); }
+  .section-red .section-title em { color: rgba(255,255,255,0.8); }
+
+  .section-lead {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin-top: 20px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .section-dark .section-lead { color: rgba(255,255,255,0.55); }
+  .section-red .section-lead { color: rgba(255,255,255,0.75); }
+
+  /* ── PULLQUOTE ── */
+  .pullquote {
+    border-left: 4px solid var(--red);
+    padding: 24px 32px;
+    margin: 48px 0;
+    background: var(--red-pale);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .section-dark .pullquote {
+    background: rgba(232,51,74,0.1);
+    border-color: var(--red-light);
+  }
+
+  .pullquote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--navy);
+  }
+
+  .section-dark .pullquote p { color: white; }
+
+  .pullquote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--muted);
+    font-style: normal;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  .section-alt .card { background: var(--cream); }
+  .section-dark .card { background: var(--navy-mid); border-color: rgba(255,255,255,0.08); }
+
+  .card-accent {
+    width: 40px;
+    height: 4px;
+    background: var(--red);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .card-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .section-dark .card h3 { color: white; }
+
+  .card p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .section-dark .card p { color: rgba(255,255,255,0.55); }
+
+  .card-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--red-pale);
+    color: var(--red);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+
+  .section-dark .card-tag {
+    background: rgba(232,51,74,0.15);
+    color: var(--red-light);
+  }
+
+  /* ── STAT BLOCKS ── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 48px 0;
+  }
+
+  .stat {
+    background: var(--warm-white);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .section-dark .stats { background: rgba(255,255,255,0.05); }
+  .section-dark .stat { background: var(--navy-mid); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .section-dark .stat-label { color: rgba(255,255,255,0.45); }
+
+  .stat-source {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  /* ── NUMBERED LIST ── */
+  .numbered-list {
+    counter-reset: items;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .numbered-item {
+    counter-increment: items;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .section-dark .numbered-item { border-color: rgba(255,255,255,0.08); }
+
+  .numbered-item::before {
+    content: counter(items, decimal-leading-zero);
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+    opacity: 0.35;
+  }
+
+  .numbered-item-body h4 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .section-dark .numbered-item-body h4 { color: white; }
+
+  .numbered-item-body p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .section-dark .numbered-item-body p { color: rgba(255,255,255,0.5); }
+
+  /* ── COMPARISON TABLE ── */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+
+  .compare-col {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .compare-header {
+    padding: 20px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .compare-col--bad .compare-header {
+    background: #FEF2F2;
+    color: #B91C1C;
+  }
+
+  .compare-col--good .compare-header {
+    background: #F0FDF4;
+    color: #166534;
+  }
+
+  .compare-body {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .compare-row {
+    padding: 16px 28px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .compare-row:last-child { border-bottom: none; }
+
+  .compare-col--bad .compare-row { color: #6B1A1A; }
+  .compare-col--good .compare-row { color: #14532D; }
+
+  /* ── PHRASE CARDS ── */
+  .phrases {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 48px;
+  }
+
+  .phrase-item {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 160px 1fr auto;
+    gap: 24px;
+    align-items: start;
+    transition: box-shadow 0.2s;
+  }
+
+  .phrase-item:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+
+  @media (max-width: 720px) {
+    .phrase-item { grid-template-columns: 1fr; }
+  }
+
+  .phrase-situation {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--red);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-align: center;
+    line-height: 1.4;
+    align-self: start;
+  }
+
+  .phrase-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .phrase-tip {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 10px 14px;
+    line-height: 1.5;
+    min-width: 160px;
+    text-align: center;
+  }
+
+  /* ── MANIPULATION CARDS ── */
+  .manip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .manip-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 36px 0;
+  }
+
+  .manip-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--red);
+    opacity: 0.3;
+    line-height: 1;
+  }
+
+  .manip-body {}
+
+  .manip-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .manip-title .emoji { font-size: 22px; }
+
+  .manip-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.45);
+    font-size: 15px;
+    margin-bottom: 12px;
+    padding-left: 16px;
+    border-left: 2px solid var(--red);
+    line-height: 1.6;
+  }
+
+  .manip-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.65;
+  }
+
+  /* ── DEFENCE BOX ── */
+  .defence-box {
+    background: rgba(232,51,74,0.1);
+    border: 1px solid rgba(232,51,74,0.25);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 56px;
+  }
+
+  .defence-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: white;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .defence-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .defence-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  .defence-list li::before {
+    content: '→';
+    color: var(--red-light);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── SILENT NEI SECTION ── */
+  .silent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+  }
+
+  @media (max-width: 768px) { .silent-grid { grid-template-columns: 1fr; } }
+
+  .silent-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .silent-card-top {
+    background: var(--navy);
+    color: white;
+    padding: 28px;
+  }
+
+  .silent-card-top .emoji { font-size: 32px; margin-bottom: 12px; display: block; }
+
+  .silent-card-top h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .silent-card-top p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  .silent-card-bottom {
+    background: var(--warm-white);
+    padding: 24px 28px;
+  }
+
+  .silent-card-bottom p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .silent-card-bottom strong {
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  /* ── COST ROW ── */
+  .cost-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .cost-item {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 28px;
+    border-left: 4px solid var(--red);
+  }
+
+  .cost-item .emoji { font-size: 28px; margin-bottom: 12px; display: block; }
+
+  .cost-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--navy);
+  }
+
+  .cost-item p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── PAUSE TECHNIQUE ── */
+  .pause-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-top: 48px;
+  }
+
+  .pause-step {
+    padding: 36px 28px;
+    background: var(--warm-white);
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .pause-step:last-child { border-right: none; }
+
+  .pause-step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--red);
+    opacity: 0.15;
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    line-height: 1;
+  }
+
+  .pause-step h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--navy);
+    position: relative;
+  }
+
+  .pause-step p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+    position: relative;
+  }
+
+  /* ── 7 DAYS ── */
+  .days {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-top: 48px;
+  }
+
+  .day-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+    transition: background 0.2s;
+  }
+
+  .day-item:hover { background: rgba(255,255,255,0.06); }
+  .day-item:last-child { border-bottom: none; }
+
+  .day-num {
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .day-body {
+    padding: 24px 28px;
+  }
+
+  .day-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .day-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    background: var(--navy);
+    color: white;
+    padding: 120px 10vw;
+    text-align: center;
+  }
+
+  .closing h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+
+  .closing h2 em {
+    color: var(--red);
+    font-style: italic;
+  }
+
+  .closing p {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    max-width: 500px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .sources {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sources h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .sources ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sources li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.5;
+    display: flex;
+    gap: 10px;
+  }
+
+  .sources li::before {
+    content: '—';
+    color: var(--red);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .cover { min-height: auto; padding: 40px; }
+    .section { padding: 40px; }
+    body { font-size: 14px; }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── UTILITY ── */
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-32 { margin-top: 32px; }
+  .highlight { color: var(--red); font-weight: 500; }
+  .mono { font-family: 'DM Mono', monospace; font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     FORSIDE
+══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-tag">Opplæringshefte</div>
+  <h1>Si<br><span>NEI.</span></h1>
+  <div class="cover-sub">
+    Kunsten å sette grenser – forstå hvorfor det er vanskelig, hva det koster deg, og hvordan du gjør det på en måte som faktisk fungerer.
+  </div>
+  <div class="cover-divider"></div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Temaer</span>
+      <span class="cover-meta-value">6 kapitler</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Inkluderer</span>
+      <span class="cover-meta-value">Øvelser & verktøy</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Basert på</span>
+      <span class="cover-meta-value">Forskning & praksis</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     INNHOLDSFORTEGNELSE
+══════════════════════════════════════════ -->
+<div class="toc">
+  <div class="toc-title">Innhold</div>
+  <div class="toc-grid">
+    <a href="#del1" class="toc-item">
+      <span class="toc-num">01</span>
+      <div class="toc-info">
+        <strong>Hvorfor er det så vanskelig?</strong>
+        <span>Hjernen, fawn-responsen og gamle mønstre</span>
+      </div>
+    </a>
+    <a href="#del2" class="toc-item">
+      <span class="toc-num">02</span>
+      <div class="toc-info">
+        <strong>Det stille neiet</strong>
+        <span>Når du sier ja men ikke gjennomfører</span>
+      </div>
+    </a>
+    <a href="#del3" class="toc-item">
+      <span class="toc-num">03</span>
+      <div class="toc-info">
+        <strong>Hva koster det deg?</strong>
+        <span>Utbrenthet, tillit og selvrespekt</span>
+      </div>
+    </a>
+    <a href="#del4" class="toc-item">
+      <span class="toc-num">04</span>
+      <div class="toc-info">
+        <strong>Manipulasjonsteknikker</strong>
+        <span>Når andre får deg til å si ja uten at du skjønner det</span>
+      </div>
+    </a>
+    <a href="#del5" class="toc-item">
+      <span class="toc-num">05</span>
+      <div class="toc-info">
+        <strong>Kunsten å si et godt nei</strong>
+        <span>Formuleringer, teknikker og tonefall</span>
+      </div>
+    </a>
+    <a href="#del6" class="toc-item">
+      <span class="toc-num">06</span>
+      <div class="toc-info">
+        <strong>7-dagers utfordring</strong>
+        <span>Ta det med deg hjem og øv deg</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 1 – HVORFOR ER DET VANSKELIG
+══════════════════════════════════════════ -->
+<div class="section" id="del1">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 01</div>
+    <h2 class="section-title">Hvorfor er det så<br><em>vanskelig å si nei?</em></h2>
+    <p class="section-lead">Det handler ikke om at du er for snill, for feig eller mangler ryggrad. Det handler om noe mye mer grunnleggende – hjernen din og dens overlevelsesin­stinkter.</p>
+  </div>
+
+  <div class="stats fade-in">
+    <div class="stat">
+      <div class="stat-num">57%</div>
+      <div class="stat-label">av arbeidstakere opplever negative konsekvenser av arbeidsrelatert stress</div>
+      <div class="stat-source">APA Work in America Survey, 2023</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">80%</div>
+      <div class="stat-label">av HR-ledere globalt sier mental helse er topprioritering</div>
+      <div class="stat-source">McKinsey, 2022</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.</div>
+      <div class="stat-label">Fawn er den fjerde overlevelses­responsen – kjempe, flykte, fryse og tilpasse</div>
+      <div class="stat-source">Pete Walker, psykoterapeut</div>
+    </div>
+  </div>
+
+  <div class="pullquote fade-in">
+    <p>«Ingen på denne jord har mer enn 24 timer i døgnet. Hvis noen rundt oss ikke respekterer våre tidsgrenser, er det fordi vi tillater det.»</p>
+    <cite>— Nedra Glover Tawwab, terapeut og forfatter av <em>Set Boundaries, Find Peace</em></cite>
+  </div>
+
+  <div class="cards fade-in">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🧠</span>
+      <h3>Amygdala – alarmsystemet</h3>
+      <p>Når vi kjenner andres misnøye, aktiveres amygdalaen som om vi er i fysisk fare. Det er den samme responsen som slår på når en bil kjører rett mot deg.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🔇</span>
+      <h3>Prefrontal cortex slår av</h3>
+      <p>Den logiske delen kobles delvis ut. Dermed «glemmer» vi hva vi egentlig ville si – og vi sier ja av ren impuls, ikke av fri vilje.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🤝</span>
+      <h3>Vagusnerven – tilpass deg</h3>
+      <p>Vagusnerven presser oss til å blidgjøre, smile og speile andre for å gjenopprette harmoni. Det kjennes som empati – men det kan også være frykt.</p>
+    </div>
+  </div>
+
+  <div class="section-header mt-32 fade-in">
+    <h3 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:16px;">Fawn-responsen</h3>
+    <p class="section-lead" style="color:var(--muted)">Psykoterapeut Pete Walker beskriver fawn som den fjerde overlevelses­strategien ved siden av å kjempe, flykte og fryse. I stedet for å si nei, prøver vi å tekkes for å unngå fare.</p>
+  </div>
+
+  <ul class="numbered-list fade-in">
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Det oppstår i barndommen</h4>
+        <p>Fawn-responsen læres ofte tidlig – i miljøer der konflikt føltes farlig, eller der tilknytning føltes betinget. Du lærte at det å tekkes andre var den sikreste veien til trygghet.</p>
+      </div>
+    </li>
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Det bæres inn i voksenlivet</h4>
+        <p>I dag bruker du den samme strategien i møter, overfor sjefen og med venner – selv om faren er borte. Det er ikke et valg. Det er automatikk.</p>
+      </div>
+    </li>
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Det er ikke en personlighetsfeil</h4>
+        <p>Det å si ja ufrivillig er ikke et tegn på svakhet. Det er en overlevelsesstrategi som en gang var smart – og som du nå kan lære å justere.</p>
+      </div>
+    </li>
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Kroppen vet det før hodet gjør det</h4>
+        <p>Tetthet i brystet, knute i magen, skjelvende stemme. Dette er kroppens signaler på selvoppgivelse. Lær å kjenne dem – de er kompasset ditt.</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 2 – DET STILLE NEIET
+══════════════════════════════════════════ -->
+<div class="section section-alt" id="del2">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 02</div>
+    <h2 class="section-title">Det stille<br><em>neiet</em></h2>
+    <p class="section-lead">Det mest oversette problemet: du sier ja, men gjennomfører ikke. Et ja du ikke mener er verre enn et nei du aldri ga.</p>
+  </div>
+
+  <div class="pullquote fade-in">
+    <p>«Et nei i dag er en gave. Et ja du ikke holder er et svik – til dem, og til deg selv.»</p>
+  </div>
+
+  <div class="silent-grid fade-in">
+    <div class="silent-card">
+      <div class="silent-card-top">
+        <span class="emoji">⏳</span>
+        <h4>Du utsetter til det forsvinner</h4>
+        <p>Du sier ja og håper problemet løser seg selv. Fristen passerer. Du svarer aldri.</p>
+      </div>
+      <div class="silent-card-bottom">
+        <p><strong>Konsekvens:</strong> Den andre venter og planlegger rundt noe som aldri kommer. Skuffelsen blir dobbel.</p>
+      </div>
+    </div>
+    <div class="silent-card">
+      <div class="silent-card-top">
+        <span class="emoji">😶</span>
+        <h4>Du gjør det halvhjertet</h4>
+        <p>Du sier ja men møter opp uten energi, engasjement eller innsats. Du er der – men egentlig ikke.</p>
+      </div>
+      <div class="silent-card-bottom">
+        <p><strong>Konsekvens:</strong> Resultatet er dårlig, relasjonen svekkes, og du bærer skyldfølelse i tillegg.</p>
+      </div>
+    </div>
+    <div class="silent-card">
+      <div class="silent-card-top">
+        <span class="emoji">🤷</span>
+        <h4>Du «glemmer» det</h4>
+        <p>Ja-et gis ansikt til ansikt, men forsvinner ut av bevisstheten fordi du aldri egentlig mente det.</p>
+      </div>
+      <div class="silent-card-bottom">
+        <p><strong>Konsekvens:</strong> Folk slutter å stole på jaaene dine. Tilliten forvitrer sakte men sikkert.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header mt-32 fade-in">
+    <h3 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:16px;">Hvorfor gjør vi det?</h3>
+  </div>
+
+  <ul class="numbered-list fade-in">
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Det føles snillere å si ja der og da</h4>
+        <p>Å avskuffe noen ansikt til ansikt er ubehagelig. Ja-et kjøper fred i øyeblikket – og utsetter ubehaget til fremtiden.</p>
+      </div>
+    </li>
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Vi undervurderer fremtidig oss selv</h4>
+        <p>«Fremtids-jeg fikser det.» Men fremtids-jeg har de samme 24 timene, den samme energien – og de samme grensene du ignorerer i dag.</p>
+      </div>
+    </li>
+    <li class="numbered-item">
+      <div class="numbered-item-body">
+        <h4>Vi håper det ordner seg selv</h4>
+        <p>Kanskje de glemmer det. Kanskje situasjonen endrer seg. Kanskje. Men den andre parten har allerede begynt å planlegge.</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="cost-row fade-in">
+    <div class="cost-item">
+      <span class="emoji">💔</span>
+      <h4>Tillit rakner</h4>
+      <p>Folk lærer at jaaene dine ikke betyr noe. Hver gang du ikke holder ord, svekkes relasjonen.</p>
+    </div>
+    <div class="cost-item">
+      <span class="emoji">😔</span>
+      <h4>Skyld og skam</h4>
+      <p>Du bærer en tung sekk av dårlig samvittighet. Et ryddig nei hadde veid langt mindre.</p>
+    </div>
+    <div class="cost-item">
+      <span class="emoji">🪞</span>
+      <h4>Du mister selvrespekt</h4>
+      <p>«Jeg er en som ikke holder ord.» Identiteten din formes av hva du gjør – ikke hva du sier.</p>
+    </div>
+    <div class="cost-item">
+      <span class="emoji">🔁</span>
+      <h4>Mønsteret gjentar seg</h4>
+      <p>Fordi du aldri lærte å si nei, fortsetter syklusen. Ja – ikke gjøre – skyld – ja igjen.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 3 – HVA KOSTER DET DEG
+══════════════════════════════════════════ -->
+<div class="section section-dark" id="del3">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 03</div>
+    <h2 class="section-title">Hva koster det deg å alltid<br><em>si ja?</em></h2>
+    <p class="section-lead">Utbrenthet er ikke noe som bare skjer med andre. Det bygger seg opp, stille og gradvis – ett ufrivillig ja av gangen.</p>
+  </div>
+
+  <div class="pullquote fade-in">
+    <p>«Burnout er offisielt anerkjent av Verdens helseorganisasjon som et arbeidsrelatert fenomen – ikke bare tretthet, men kronisk, helseskadelig utmattelse.»</p>
+    <cite>— WHO ICD-11, 2019</cite>
+  </div>
+
+  <div class="cards fade-in">
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🔥</span>
+      <h3>Utbrenthet</h3>
+      <p>Kronisk stress som ikke håndteres fører til emosjonell utmattelse, kynisme og redusert effektivitet. Det er ikke bare å være trøtt – det er en helsetilstand.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">😤</span>
+      <h3>Oppsamlet bitterhet</h3>
+      <p>Når du sier ja mot din vilje, vokser det stille sinnet innvendig. Over tid kan dette ødelegge selv de relasjoner du bryr deg mest om.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">📉</span>
+      <h3>Lavere kvalitet</h3>
+      <p>Jo mer du tar på deg, desto dårligere blir alt du gjør. Overengasjement er fienden til godt arbeid.</p>
+    </div>
+    <div class="card">
+      <div class="card-accent"></div>
+      <span class="card-icon">🫥</span>
+      <h3>Du mister deg selv</h3>
+      <p>Etter år med å sette andres behov foran dine egne, mister du kontakten med hva du egentlig vil, trenger og verdsetter.</p>
+    </div>
+  </div>
+
+  <div class="pullquote fade-in" style="margin-top:48px;">
+    <p>«Forskning fra American Psychological Association viser at tydelige grenser reduserer stress, styrker selvfølelsen og bedrer emosjonell motstandsdyktighet.»</p>
+    <cite>— American Psychological Association</cite>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 4 – MANIPULASJONSTEKNIKKER
+══════════════════════════════════════════ -->
+<div class="section section-dark" id="del4" style="background:var(--navy-mid);">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 04</div>
+    <h2 class="section-title">Når andre får deg til å si ja –<br><em>uten at du skjønner det</em></h2>
+    <p class="section-lead">En av de mest sofistikerte – og vanligste – formene for manipulasjon er den som føles som noe positivt. Du tror du hjelper. Men du er lettest å manipulere.</p>
+  </div>
+
+  <div class="manip-list fade-in">
+    <div class="manip-item">
+      <div class="manip-num">01</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">🪤</span> Smiger-fellen</div>
+        <div class="manip-quote">«Du er den eneste jeg stoler på med dette» · «Ingen gjør dette bedre enn deg»</div>
+        <p class="manip-desc">Du sier ja fordi du vil leve opp til bildet de tegner av deg. Det kjennes godt – men det er nettopp det som gjør det effektivt. Du er ikke spesielt utvalgt. Du er bare lettest å overtale.</p>
+      </div>
+    </div>
+    <div class="manip-item">
+      <div class="manip-num">02</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">😢</span> Offer-historien</div>
+        <div class="manip-quote">«Jeg vet ikke hvem andre jeg skal spørre» · «Jeg har hatt det så vanskelig i det siste»</div>
+        <p class="manip-desc">Din skyldfølelse brukes som løftestang. Nødsituasjonen kan være ekte eller overdrevet – men uansett: du sier ja for å slippe å føle deg som et dårlig menneske.</p>
+      </div>
+    </div>
+    <div class="manip-item">
+      <div class="manip-num">03</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">🔄</span> Gjensidighetsmanipulasjon</div>
+        <div class="manip-quote">«Jeg hjalp deg jo med X» · «Etter alt jeg har gjort for deg...»</div>
+        <p class="manip-desc">Hjelpen de ga deg tidligere presenteres nå som en gjeld du skylder. Det som virket som en gave, var egentlig en investering – med forventet avkastning.</p>
+      </div>
+    </div>
+    <div class="manip-item">
+      <div class="manip-num">04</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">👥</span> Gruppepress og normalisering</div>
+        <div class="manip-quote">«Alle andre er med» · «Det er jo ikke så mye å be om»</div>
+        <p class="manip-desc">Du gjøres til den rare, den kalde, den vanskelige – hvis du sier nei. Det er lettere å gi etter enn å stå i det. Psykologer kaller dette for normativ sosial innflytelse.</p>
+      </div>
+    </div>
+    <div class="manip-item">
+      <div class="manip-num">05</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">📈</span> Den gradvise eskalering</div>
+        <div class="manip-quote">Starter med lite – så litt mer – så litt mer</div>
+        <p class="manip-desc">Foot-in-the-door-teknikken. Starter med en liten, rimelig forespørsel. Så en litt større. Til slutt vil du si nei – men du har allerede sagt ja så mange ganger at det virker rart å stoppe.</p>
+      </div>
+    </div>
+    <div class="manip-item">
+      <div class="manip-num">06</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">⏱️</span> Kunstig tidspress</div>
+        <div class="manip-quote">«Jeg trenger svar nå» · «Det haster veldig»</div>
+        <p class="manip-desc">Presset fjerner din mulighet til å tenke deg om. Urgency er nesten aldri så reell som den presenteres. Din beste motgift: «Jeg trenger 24 timer for å svare deg skikkelig.»</p>
+      </div>
+    </div>
+    <div class="manip-item" style="border-bottom:none;">
+      <div class="manip-num">07</div>
+      <div class="manip-body">
+        <div class="manip-title"><span class="emoji">🔁</span> Det omvendte neiet</div>
+        <div class="manip-quote">«Nei nei, du trenger ikke hjelpe meg...» (sagt med den tonen)</div>
+        <p class="manip-desc">Du tror du tar initiativet selv. Men du ble ledet dit. Den som sier dette vet nøyaktig hva de gjør – og de vet at du kommer til å tilby deg.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="defence-box fade-in">
+    <h3>🛡️ Slik gjenkjenner og forsvarer du deg</h3>
+    <ul class="defence-list">
+      <li>Kjenn etter i kroppen – kjenner du lettelse eller uro etter at du sa ja?</li>
+      <li>Vent alltid 24 timer på store forespørsler. Urgency er nesten aldri reell.</li>
+      <li>Spør deg selv: «Ville jeg sagt ja til dette hvis ingen visste om det?»</li>
+      <li>Navngi mønsteret stille for deg selv – bare det å se det gir deg makten tilbake.</li>
+      <li>Husk: At noen trenger hjelp betyr ikke at du er riktig person til å gi den.</li>
+      <li>Bruk pause-teknikken: «Kan jeg tenke på det og komme tilbake til deg?»</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 5 – KUNSTEN Å SI ET GODT NEI
+══════════════════════════════════════════ -->
+<div class="section" id="del5">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 05</div>
+    <h2 class="section-title">Kunsten å si et<br><em>godt nei</em></h2>
+    <p class="section-lead">Et nei trenger ikke såre. Det kan faktisk styrke relasjonen – når det leveres med klarhet, omsorg og respekt.</p>
+  </div>
+
+  <div class="pullquote fade-in">
+    <p>«Tidlig er alltid snillere enn sent. Jo tidligere du sier nei, desto mer tid gir du den andre til å finne en annen løsning.»</p>
+  </div>
+
+  <div class="compare fade-in">
+    <div class="compare-col compare-col--bad">
+      <div class="compare-header">❌ Et dårlig nei</div>
+      <div class="compare-body">
+        <div class="compare-row">Kommer for sent – etter at andre har planlagt rundt ja-et ditt</div>
+        <div class="compare-row">Fullt av unnskyldninger og forklaringer</div>
+        <div class="compare-row">Vagt og unnvikende – «kanskje», «vi får se»</div>
+        <div class="compare-row">Etterfølges av skyld, angst og overforklaring</div>
+        <div class="compare-row">Fokus på deg: «Jeg orker ikke», «jeg har det travelt»</div>
+        <div class="compare-row">Lange begrunnelser som inviterer til forhandling</div>
+      </div>
+    </div>
+    <div class="compare-col compare-col--good">
+      <div class="compare-header">✅ Et godt nei</div>
+      <div class="compare-body">
+        <div class="compare-row">Kommer tidlig og tydelig – så den andre kan planlegge</div>
+        <div class="compare-row">Kort, respektfullt og direkte</div>
+        <div class="compare-row">Klart og ærlig – ingen tvil om svaret</div>
+        <div class="compare-row">Etterfølges av ro – du trenger ikke rettferdiggjøre deg</div>
+        <div class="compare-row">Fokus på situasjonen: «Det passer ikke nå»</div>
+        <div class="compare-row">Avsluttes med omsorg for relasjonen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header mt-32 fade-in">
+    <h3 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:8px;">Formelen: Anerkjenn – Si nei – Avslutt med omsorg</h3>
+    <p style="color:var(--muted);font-size:16px;line-height:1.6;">Tre deler. Kortere er sterkere. Lange forklaringer signaliserer usikkerhet og inviterer til forhandling.</p>
+  </div>
+
+  <div class="phrases fade-in">
+    <div class="phrase-item">
+      <div class="phrase-situation">Generelt nei</div>
+      <div class="phrase-text">«Jeg setter pris på at du spør, men jeg kan ikke ta det på meg akkurat nå.»</div>
+      <div class="phrase-tip">💡 Ingen unnskyldning nødvendig. Punkt.</div>
+    </div>
+    <div class="phrase-item">
+      <div class="phrase-situation">Vil tilby noe alternativt</div>
+      <div class="phrase-text">«Det passer ikke denne uken, men jeg kan gjerne hjelpe deg med [X] neste gang.»</div>
+      <div class="phrase-tip">💡 Gir alternativ uten å forplikte deg</div>
+    </div>
+    <div class="phrase-item">
+      <div class="phrase-situation">Trenger tid til å tenke</div>
+      <div class="phrase-text">«Kan jeg tenke på det og gi deg svar innen [dag/tid]?»</div>
+      <div class="phrase-tip">💡 Stopper impulsivt ja. Gir deg tid.</div>
+    </div>
+    <div class="phrase-item">
+      <div class="phrase-situation">På jobb til sjefen</div>
+      <div class="phrase-text">«Jeg jobber med [prioritet X] nå. Vil du at jeg skal nedprioritere det for å ta dette?»</div>
+      <div class="phrase-tip">💡 Gjør avveiingen synlig – lar sjefen velge</div>
+    </div>
+    <div class="phrase-item">
+      <div class="phrase-situation">Til nær familie/venner</div>
+      <div class="phrase-text">«Jeg elsker deg, og akkurat nå trenger jeg å prioritere meg selv.»</div>
+      <div class="phrase-tip">💡 Nei med kjærlighet. Ingen skyld.</div>
+    </div>
+    <div class="phrase-item">
+      <div class="phrase-situation">Mot manipulasjon</div>
+      <div class="phrase-text">«Jeg forstår at du trenger hjelp. Det er ikke noe jeg kan ta på meg – jeg håper du finner noen som kan hjelpe deg godt.»</div>
+      <div class="phrase-tip">💡 Anerkjenner uten å ta ansvar</div>
+    </div>
+  </div>
+
+  <div class="section-header mt-32 fade-in">
+    <h3 style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;margin-bottom:16px;">Pause-teknikken</h3>
+    <p style="color:var(--muted);font-size:16px;">Fem sekunder kan endre svaret ditt fullstendig.</p>
+  </div>
+
+  <div class="pause-steps fade-in">
+    <div class="pause-step">
+      <div class="pause-step-num">1</div>
+      <h4>Kjenn etter</h4>
+      <p>Legg merke til det fysiske signalet. Tetthet i brystet? Knute i magen? Pust.</p>
+    </div>
+    <div class="pause-step">
+      <div class="pause-step-num">2</div>
+      <h4>Ta en pause</h4>
+      <p>«Jeg trenger et sekund» eller «Kan jeg sjekke planen min?» – begge er profesjonelle svar.</p>
+    </div>
+    <div class="pause-step">
+      <div class="pause-step-num">3</div>
+      <h4>Spør deg selv</h4>
+      <p>«Hva vil JEG egentlig?» – ikke hva forventes av meg, men hva vil jeg.</p>
+    </div>
+    <div class="pause-step">
+      <div class="pause-step-num">4</div>
+      <h4>Svar bevisst</h4>
+      <p>Velg fra verdier og behov – ikke fra frykt eller vane.</p>
+    </div>
+  </div>
+
+  <div style="background:var(--red-pale);border-radius:16px;padding:40px;margin-top:48px;" class="fade-in">
+    <h3 style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:20px;color:var(--navy);">Husk disse prinsippene</h3>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:14px;">
+      <li style="display:flex;gap:14px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span> Et nei til oppgaven er ikke et nei til personen – skille tydelig mellom sak og relasjon</li>
+      <li style="display:flex;gap:14px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span> Du eier ikke den andres følelser – de kan bli skuffet. Det er lov. Det er ikke din feil.</li>
+      <li style="display:flex;gap:14px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span> Kortere er sterkere – lange forklaringer inviterer til forhandling</li>
+      <li style="display:flex;gap:14px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span> Tonen avgjør alt – det samme neilet kan kjennes vennlig eller kaldt</li>
+      <li style="display:flex;gap:14px;font-size:15px;color:var(--text);line-height:1.6;"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span> Tidlig er alltid snillere enn sent</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DEL 6 – 7 DAGERS UTFORDRING
+══════════════════════════════════════════ -->
+<div class="section section-dark" id="del6">
+  <div class="section-header fade-in">
+    <div class="section-eyebrow">Kapittel 06</div>
+    <h2 class="section-title">7-dagers<br><em>nei-utfordring</em></h2>
+    <p class="section-lead">Ikke vær helten som starter med det store neilet. Start smått. Muskler bygges med repetisjon – og det samme gjelder grenser.</p>
+  </div>
+
+  <div class="days fade-in">
+    <div class="day-item">
+      <div class="day-num">1–2</div>
+      <div class="day-body">
+        <div class="day-title">Si nei til én liten ting</div>
+        <div class="day-desc">En forespørsel du egentlig ikke vil si ja til. Velg noe lavrisiko – kanskje en nabos forespørsel eller en ekstra oppgave.</div>
+      </div>
+    </div>
+    <div class="day-item">
+      <div class="day-num">3–4</div>
+      <div class="day-body">
+        <div class="day-title">Bruk pause-teknikken én gang</div>
+        <div class="day-desc">Neste gang noen spør deg om noe – ta ett sekund. Kjenn etter. Si «Kan jeg komme tilbake til deg?» i stedet for å svare impulsivt.</div>
+      </div>
+    </div>
+    <div class="day-item">
+      <div class="day-num">5</div>
+      <div class="day-body">
+        <div class="day-title">Si nei på jobb – med en formulering</div>
+        <div class="day-desc">Bruk en av fraser fra kapittel 5. Gjerne versjonen til sjefen: «Vil du at jeg skal nedprioritere X for å ta dette?»</div>
+      </div>
+    </div>
+    <div class="day-item">
+      <div class="day-num">6</div>
+      <div class="day-body">
+        <div class="day-title">Si nei til noe sosialt du egentlig ikke vil</div>
+        <div class="day-desc">En invitasjon, en sammenkomst, en forpliktelse. Prøv: «Jeg trenger å prioritere meg selv akkurat nå.»</div>
+      </div>
+    </div>
+    <div class="day-item" style="border-bottom:none;">
+      <div class="day-num">7</div>
+      <div class="day-body">
+        <div class="day-title">Reflekter: Hva skjedde? Hva vant du?</div>
+        <div class="day-desc">Ble folk sure? Mistet du noe? Eller fikk du noe tilbake – energi, tid, selvrespekt? Skriv det ned.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="defence-box fade-in" style="margin-top:56px;">
+    <h3>📋 Refleksjonsspørsmål for dag 7</h3>
+    <ul class="defence-list">
+      <li>Hva skjedde i kroppen din da du sa nei – og etterpå?</li>
+      <li>Reagerte den andre slik du fryktet – eller noe helt annet?</li>
+      <li>Hvilken situasjon var lettest? Hvilken var vanskeligst?</li>
+      <li>Hva sier dette om hvor grensene dine trenger mest trening?</li>
+      <li>Hva vil du gjøre annerledes neste uke?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     AVSLUTNING
+══════════════════════════════════════════ -->
+<div class="closing">
+  <h2>Du fortjener et liv<br>fylt av <em>ekte ja.</em></h2>
+  <p>Og for å få det – må du øve på å si nei. Hvert nei du sier til noe du ikke vil, frigjør plass til et ja du faktisk mener.</p>
+
+  <div class="sources">
+    <h4>Kilder</h4>
+    <ul>
+      <li>American Psychological Association – Work in America Survey, 2023</li>
+      <li>Nedra Glover Tawwab – <em>Set Boundaries, Find Peace</em>, 2021</li>
+      <li>Pete Walker – psykoterapeut, introduserte fawn-responsen</li>
+      <li>Schlund, Sommers & Bohns – Cornell University, Scientific Reports, 2024</li>
+      <li>McKinsey Health Institute Employee Mental Health and Wellbeing Survey, 2022</li>
+      <li>WHO ICD-11 – Burnout som offisielt arbeidsrelatert fenomen, 2019</li>
+      <li>Harriet Braiker – <em>The Disease to Please</em></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
